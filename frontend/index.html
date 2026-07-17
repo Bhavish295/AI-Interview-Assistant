@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Interview Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="authSection">
+    <h2>Welcome back</h2>
+    <div class="field-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter username">
+    </div>
+    <div class="field-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+    </div>
+    <div class="btn-row">
+        <button type="button" onclick="login()">Login</button>
+        <button type="button" onclick="register()">Register</button>
+    </div>
+</div>
+
+<!-- SETUP -->
+<div id="interviewSetup" class="hidden">
+    <h2>Choose your interview</h2>
+    <div class="field-group">
+        <label for="category">Category</label>
+        <select id="category">
+            <option>Frontend</option>
+            <option>Backend</option>
+            <option>DSA</option>
+            <option>Database</option>
+            <option>HR</option>
+            <option>Mixed (AI Random)</option>
+        </select>
+    </div>
+
+    <div class="field-group">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+            <option>Mixed</option>
+        </select>
+    </div>
+
+    <div class="field-group">
+        <label for="resumeFile">Resume (optional)</label>
+        <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt">
+        <small class="hint">Upload your resume to get custom questions.</small>
+    </div>
+
+    <button onclick="startInterview()">Start interview</button>
+</div>
+
+<!-- INTERVIEW -->
+<div id="interviewSection" class="hidden">
+    <div class="interview-header">
+        <div class="progress-wrapper">
+            <div class="progress-label">
+                <span id="progressText">Question 1/1</span>
+                <span id="liveScore" class="live-score">Score: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </div>
+        <div class="timer-pill">
+            ⏱ <span id="timer">30</span>s
+        </div>
+    </div>
+
+    <div class="question-block">
+        <h3 id="question"></h3>
+    </div>        <button type="button" class="ghost-btn" onclick="playQuestionVoice()">🔊 Play Question</button>
+
+
+    <div class="answer-section">
+        <label for="answer">Your answer</label>
+        <textarea id="answer" placeholder="Speak or type your answer here..."></textarea>
+        <div class="answer-actions">
+            <button type="button" class="secondary-btn" onclick="startVoice()">🎤 Speak</button>
+            <button type="button" class="secondary-btn" onclick="retakeAnswer()">Retake Answer</button>
+            <button type="button" onclick="submitAnswer()">Submit Answer</button>
+        </div>
+    </div>
+
+    <div class="transcript-panel">
+        <h4>Live transcript</h4>
+        <div id="liveTranscript" class="transcript-box"></div>
+    </div>
+
+    <div id="feedbackPanel" class="feedback-panel hidden">
+        <h4>AI Feedback</h4>
+        <p><strong>Strengths:</strong> <span id="fbStrengths"></span></p>
+        <p><strong>Weak points:</strong> <span id="fbWeak"></span></p>
+        <p><strong>Suggested better answer:</strong> <span id="fbSuggestion"></span></p>
+        <p><strong>Confidence score:</strong> <span id="fbConfidence"></span></p>
+    </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultSection" class="hidden">
+    <h2>Interview complete</h2>
+    <p id="score" class="final-score"></p>
+    <p id="avgScore"></p>
+    <p id="strongestTopic"></p>
+    <p id="weakestTopic"></p>
+    <p id="improvement"></p>
+
+    <div class="charts-grid">
+        <div>
+            <h4>Last 5 interviews</h4>
+            <canvas id="lastFiveChart"></canvas>
+        </div>
+        <div>
+            <h4>All-time scores</h4>
+            <canvas id="allScoresChart"></canvas>
+        </div>
+    </div>
+
+    <button onclick="location.reload()">Start New Interview</button>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
