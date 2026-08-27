@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-paper text-ink font-body antialiased;
+}
+
+html.dark body {
+  @apply bg-ink text-paper;
+}
+
+::selection {
+  @apply bg-signal/30;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid theme("colors.signal.DEFAULT");
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.font-display {
+  letter-spacing: -0.01em;
+}
+
+/* Cue card: paper surface with a die-cut notch, used in both themes */
+.cue-card {
+  @apply relative bg-paper text-ink rounded-2xl shadow-[0_1px_0_rgba(0,0,0,0.04),0_20px_40px_-24px_rgba(0,0,0,0.35)];
+}
+
+.cue-card::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: theme("colors.ink");
+}
+
+html.dark .cue-card::before {
+  background: theme("colors.ink");
+}
+
+.oscilloscope-grid {
+  background-image: linear-gradient(to right, rgba(156, 145, 134, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(156, 145, 134, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
