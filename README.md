@@ -1,156 +1,78 @@
-# 🤖 AI Interview Assistant
+# OnAir — AI Interview Assistant
 
-An AI-powered Interview Preparation Platform that helps candidates practice technical interviews, receive instant feedback, track performance, and improve interview skills.
+A mock-interview studio: pick a track, speak your answers to a live AI interviewer,
+and get scored, specific feedback in seconds. Full rewrite of the original prototype
+(kept in [`legacy/`](./legacy) for reference) on a modern, production-shaped stack.
 
----
+## Stack
 
-## 🚀 Features
+- **Next.js 15** (App Router) + **TypeScript** — one deployable app, UI + API routes
+- **Tailwind CSS** with a small hand-built design system ("On Air" studio theme — see [`DESIGN.md`](./DESIGN.md))
+- **MongoDB + Mongoose**
+- **JWT sessions in httpOnly cookies** (not localStorage), **Zod** validation on every API route
+- **Google Gemini** (`@google/genai`) for answer evaluation and resume analysis, with a graceful fallback if the API key is missing or the call fails
+- **pdf-parse** for resume text extraction
+- **Recharts** for the dashboard trend chart
+- Native **Web Speech API** for voice-to-text answers and text-to-speech questions (Chrome-based browsers)
 
-- 🔐 User Registration & Login (JWT Authentication)
-- 🎯 Category-based Interviews
-- 📊 Difficulty Selection (Easy, Medium, Hard)
-- 📄 Resume Upload
-- 🎤 Voice-to-Text Answer Input
-- 🔊 Text-to-Speech Questions
-- ⏱️ 30-Second Timer
-- 📈 Performance Dashboard
-- 📊 Interview History
-- 👨‍💼 Admin Panel
-- 📝 Question Management
-- 🤖 AI Answer Evaluation *(Coming Soon)*
-- 📑 Resume Analysis *(Coming Soon)*
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-- HTML5
-- CSS3
-- JavaScript
-- Chart.js
-- Web Speech API
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- bcryptjs
-
-### AI
-- Google Gemini API *(Integration in Progress)*
-
----
-
-## 📁 Project Structure
-
-```
-Interview-Assistant/
-│
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js
-│   ├── admin.html
-│   ├── admin.js
-│   ├── dashboard.html
-│   └── dashboard.js
-│
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── uploads/
-│   ├── utils/
-│   ├── server.js
-│   └── package.json
-│
-├── .gitignore
-└── README.md
-```
-
----
-
-## ⚙️ Installation
-
-### Clone Repository
+## Getting started
 
 ```bash
-git clone https://github.com/Bhavish295/AI-Interview-Assistant.git
-```
-
-### Install Backend Dependencies
-
-```bash
-cd backend
 npm install
-```
-
-### Create Environment File
-
-Create a `.env` file inside the `backend` folder.
-
-```env
-PORT=5000
-
-MONGO_URI=YOUR_MONGODB_URI
-
-JWT_SECRET=YOUR_SECRET
-
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-### Run Backend
-
-```bash
+cp .env.example .env   # then fill in MONGO_URI, JWT_SECRET, GEMINI_API_KEY
+npm run seed            # populates a broad question bank across all tracks
 npm run dev
 ```
 
----
+Open http://localhost:3000, sign up, and start an interview.
 
-## 📌 Current Features
+### Environment variables
 
-- Authentication System
-- Technical Interview Questions
-- Live Timer
-- Voice Answer Support
-- Dashboard
-- Interview Result Storage
-- Resume Upload
-- Admin Question Management
+See [`.env.example`](./.env.example). At minimum you need `MONGO_URI` and `JWT_SECRET`.
+Without `GEMINI_API_KEY`, answers are still saved but evaluation shows an
+"AI temporarily unavailable" state instead of a fabricated score.
 
----
+### Creating an admin account
 
-## 🚧 Upcoming Features
+Set `ADMIN_EMAIL` / `ADMIN_PASSWORD` in `.env` before running `npm run seed` — it will
+create (or promote) that account to `role: "admin"`, unlocking `/admin` for curating
+the question bank.
 
-- AI Answer Evaluation using Gemini
-- Resume Skill Analysis
-- AI Interview Feedback
-- PDF Interview Report
-- Email Report
-- Company-wise Interview Sets
-- Dark Mode
-- Candidate Profile
+## Project structure
 
----
+```
+app/
+  (marketing)/            landing page
+  (auth)/login, signup/   auth screens
+  (app)/                  authenticated app (middleware-protected)
+    setup/                pick a track + difficulty, optional resume upload
+    interview/[id]/       live Q&A flow
+    results/[id]/         session summary
+    dashboard/            history + trend chart
+    admin/                question bank CRUD (admin role only)
+    settings/             change password
+  api/                    route handlers (auth, interview, resume, admin)
+components/               ui primitives + feature components
+lib/                      db, auth/session, zod validators, gemini client
+models/                   Mongoose schemas
+middleware.ts             route-level auth guard
+scripts/seed.ts           question bank + optional admin seed
+legacy/                   the original Express + vanilla-JS prototype
+```
 
-## 👨‍💻 Developed By
+## Verifying changes
 
-**Bhavish Kumar**
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
 
-BS Computer Science
+## Notes on what changed from the prototype
 
-SZABIST Hyderabad
-
-GitHub: https://github.com/Bhavish295
-
----
-
-## ⭐ Support
-
-If you like this project, don't forget to **Star ⭐ the repository**.
+- AI evaluation is now actually wired up (the old repo had a hardcoded mock score).
+- Auth uses email + hashed password + expiring JWT in an httpOnly cookie, not a
+  username-only account with a non-expiring token in a custom header.
+- The admin panel is real — the old one called an endpoint that didn't exist.
+- Resumes are parsed and summarized by Gemini, not just stored as a file.
+- Every write route validates input with Zod.
