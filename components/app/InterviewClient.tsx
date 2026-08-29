@@ -224,39 +224,41 @@ export function InterviewClient({ sessionId }: { sessionId: string }) {
     <div className="mx-auto max-w-2xl">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <span className="font-mono text-xs uppercase tracking-widest text-mist">
+          <p className="text-sm text-mist">
             {session.track} · {session.difficulty}
-          </span>
-          <div className="mt-1 flex items-center gap-2">
-            <TallyLight label={evaluation ? "PLAYBACK" : "REC"} active={!evaluation} size="sm" />
-            <span className="font-mono text-xs text-mist">
-              Question {current + 1}/{total}
+          </p>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <TallyLight label={evaluation ? "Feedback" : "Your turn"} active={!evaluation} size="sm" />
+            <span className="text-sm text-mist">
+              Question {current + 1} of {total}
             </span>
           </div>
         </div>
-        <div className="font-mono text-2xl font-semibold tabular-nums">
-          00:{timeLeft.toString().padStart(2, "0")}
+        <div className="text-right">
+          <p className="text-xs text-mist">Seconds left</p>
+          <p className="text-2xl font-semibold tabular-nums">{timeLeft}</p>
         </div>
       </div>
 
-      <div className="cue-card p-8 pl-10">
+      <div className="cue-card p-7">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="font-display text-2xl font-bold leading-tight">{question.question}</h2>
+          <h2 className="text-xl font-semibold leading-snug sm:text-2xl">{question.question}</h2>
           <button
             type="button"
             onClick={playQuestion}
-            className="flex-shrink-0 rounded-full border border-mist/30 px-3 py-1.5 text-xs text-ink/70 hover:bg-mist/10"
-            aria-label="Play question aloud"
+            className="flex-shrink-0 rounded-xl border border-mist/30 px-3 py-1.5 text-xs hover:bg-mist/10"
+            aria-label="Read the question out loud"
           >
-            🔊 Play
+            Play question
           </button>
         </div>
 
         {!evaluation ? (
           <>
+            <p className="mt-4 text-sm text-mist">Speak your answer, or type it in the box. Then click Submit.</p>
             <Textarea
-              className="mt-6 min-h-[140px]"
-              placeholder="Speak or type your answer…"
+              className="mt-3 min-h-[140px]"
+              placeholder="Your answer…"
               value={answerText}
               onChange={(e) => setAnswerText(e.target.value)}
               disabled={submitting}
@@ -264,10 +266,10 @@ export function InterviewClient({ sessionId }: { sessionId: string }) {
             {listening && <Waveform className="mt-3" bars={32} />}
             <div className="mt-4 flex flex-wrap gap-3">
               <Button type="button" variant={listening ? "danger" : "ghost"} onClick={toggleVoice} disabled={submitting}>
-                {listening ? "■ Stop" : "🎤 Speak"}
+                {listening ? "Stop microphone" : "Use microphone"}
               </Button>
               <Button type="button" onClick={submitAnswer} disabled={submitting} className="ml-auto">
-                {submitting ? "Scoring…" : "Submit answer"}
+                {submitting ? "Scoring your answer…" : "Submit answer"}
               </Button>
             </div>
           </>
@@ -275,7 +277,7 @@ export function InterviewClient({ sessionId }: { sessionId: string }) {
           <div className="mt-6 space-y-6">
             {evaluation.aiUnavailable && (
               <p className="rounded-lg border border-brass/30 bg-brass/10 px-4 py-3 text-sm text-ink/80">
-                AI evaluation is temporarily unavailable — your answer was saved without a score.
+                Scoring is temporarily unavailable. Your answer was still saved.
               </p>
             )}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -286,17 +288,17 @@ export function InterviewClient({ sessionId }: { sessionId: string }) {
             </div>
 
             {evaluation.strengths.length > 0 && (
-              <FeedbackList label="Strengths" items={evaluation.strengths} tone="brass" />
+              <FeedbackList label="What went well" items={evaluation.strengths} tone="brass" />
             )}
             {evaluation.weaknesses.length > 0 && (
-              <FeedbackList label="Gaps" items={evaluation.weaknesses} tone="signal" />
+              <FeedbackList label="What to improve" items={evaluation.weaknesses} tone="signal" />
             )}
             {evaluation.improvementTips.length > 0 && (
-              <FeedbackList label="Try this" items={evaluation.improvementTips} tone="mist" />
+              <FeedbackList label="Try this next time" items={evaluation.improvementTips} tone="mist" />
             )}
 
             <Button type="button" onClick={nextQuestion} disabled={finishing} className="w-full">
-              {finishing ? "Wrapping up…" : current + 1 < total ? "Next question" : "See results"}
+              {finishing ? "Saving…" : current + 1 < total ? "Next question" : "See full results"}
             </Button>
           </div>
         )}
@@ -309,7 +311,7 @@ function FeedbackList({ label, items, tone }: { label: string; items: string[]; 
   const dotColor = tone === "brass" ? "bg-brass" : tone === "signal" ? "bg-signal" : "bg-mist";
   return (
     <div>
-      <p className="font-mono text-[11px] uppercase tracking-widest text-mist">{label}</p>
+      <p className="text-sm font-medium">{label}</p>
       <ul className="mt-2 space-y-1.5">
         {items.map((item, i) => (
           <li key={i} className="flex gap-2 text-sm text-ink/80">

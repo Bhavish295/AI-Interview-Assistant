@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
     dirs: ["app", "components", "lib", "models", "scripts"],
   },
   serverExternalPackages: ["pdf-parse", "mongoose"],
+  experimental: {
+    optimizePackageImports: ["recharts"],
+  },
 };
 
 export default nextConfig;

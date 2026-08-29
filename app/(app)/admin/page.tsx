@@ -10,11 +10,11 @@ export default async function AdminPage() {
   return (
     <div>
       <div className="mb-8">
-        <TallyLight label="ADMIN" />
-        <h1 className="mt-4 font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
-          Question bank
+        <TallyLight label="Admin" />
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+          Question list
         </h1>
-        <p className="mt-2 text-mist">Curate the questions candidates see across every track.</p>
+        <p className="mt-2 text-mist">Add or remove questions that people see in practice interviews.</p>
       </div>
       <AdminQuestions />
     </div>

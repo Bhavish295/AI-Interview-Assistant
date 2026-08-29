@@ -38,7 +38,7 @@ export function PasswordForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="cue-card max-w-md space-y-4 p-6 pl-8">
+    <form onSubmit={handleSubmit} className="cue-card max-w-md space-y-4 p-6">
       <div>
         <Label htmlFor="currentPassword">Current password</Label>
         <Input

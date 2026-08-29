@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
-import { requireUser } from "@/lib/requireUser";
+import { getSession } from "@/lib/auth";
 import { AppShell } from "@/components/app/AppShell";
 
 export default async function AppGroupLayout({ children }: { children: React.ReactNode }) {
-  const user = await requireUser();
-  if (!user) redirect("/login");
+  const session = await getSession();
+  if (!session) redirect("/login");
 
-  return <AppShell user={{ name: user.name, role: user.role }}>{children}</AppShell>;
+  return <AppShell user={{ name: session.name || "You", role: session.role }}>{children}</AppShell>;
 }

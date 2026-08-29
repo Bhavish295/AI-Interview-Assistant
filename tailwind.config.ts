@@ -6,43 +6,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#15120F",
-        panel: "#211C17",
-        "panel-2": "#2A2420",
-        paper: "#F3ECDD",
-        "paper-2": "#EAE1CC",
+        ink: "#F4F7FB",
+        panel: "#121A2B",
+        "panel-2": "#1A2438",
+        paper: "#0B1220",
+        "paper-2": "#0F172A",
         signal: {
-          DEFAULT: "#E8432B",
-          soft: "#F2795F",
+          DEFAULT: "#22D3EE",
+          soft: "#67E8F9",
         },
         brass: {
-          DEFAULT: "#CFA038",
-          soft: "#E0BE6E",
+          DEFAULT: "#EAB308",
+          soft: "#FACC15",
         },
-        mist: "#9C9186",
+        mist: "#94A3B8",
+        navy: "#070D18",
       },
       fontFamily: {
-        display: ["var(--font-display)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
+        body: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       keyframes: {
         pulseDot: {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.4", transform: "scale(0.85)" },
         },
-        wave: {
-          "0%, 100%": { transform: "scaleY(0.3)" },
-          "50%": { transform: "scaleY(1)" },
-        },
-        riseIn: {
-          "0%": { opacity: "0", transform: "translateY(10px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
       },
       animation: {
         "pulse-dot": "pulseDot 1.4s ease-in-out infinite",
-        "rise-in": "riseIn 0.35s ease-out",
       },
     },
   },

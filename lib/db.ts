@@ -7,7 +7,6 @@ type MongooseCache = {
   promise: Promise<typeof mongoose> | null;
 };
 
-// Reuse the connection across hot reloads / serverless invocations.
 const globalForMongoose = globalThis as unknown as { _mongoose?: MongooseCache };
 
 const cache: MongooseCache = globalForMongoose._mongoose ?? { conn: null, promise: null };
@@ -19,6 +18,10 @@ export async function connectDB() {
   if (!cache.promise) {
     cache.promise = mongoose.connect(MONGO_URI, {
       bufferCommands: false,
+      maxPoolSize: 10,
+      minPoolSize: 1,
+      serverSelectionTimeoutMS: 8000,
+      socketTimeoutMS: 20000,
     });
   }
 

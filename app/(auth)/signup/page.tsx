@@ -41,9 +41,8 @@ export default function SignupPage() {
 
   return (
     <AuthShell
-      eyebrow="NEW ACCOUNT"
-      title="Get on the air"
-      subtitle="Create an account to start your first mock interview."
+      title="Create your account"
+      subtitle="Takes less than a minute. Then you can start a practice interview."
       footer={
         <>
           Already have an account?{" "}

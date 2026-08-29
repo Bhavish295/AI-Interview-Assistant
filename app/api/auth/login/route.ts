@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   try {
     await connectDB();
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).select("name email password role");
     if (!user) {
       return NextResponse.json({ message: "Incorrect email or password" }, { status: 401 });
     }
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Incorrect email or password" }, { status: 401 });
     }
 
-    await setSessionCookie({ id: user._id.toString(), role: user.role });
+    await setSessionCookie({ id: user._id.toString(), role: user.role, name: user.name });
 
     return NextResponse.json({ name: user.name, email: user.email, role: user.role });
   } catch (error) {

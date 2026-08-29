@@ -1,23 +1,37 @@
 const STEPS = [
-  { label: "CUE", title: "Pick your track", body: "Choose a role and difficulty, or upload a resume so questions match your background." },
-  { label: "REC", title: "Answer live", body: "A question appears on your cue card. Speak or type your answer before the 30-second tally light runs out." },
-  { label: "PLAYBACK", title: "Get real feedback", body: "The AI scores accuracy, communication, and confidence, then tells you exactly what to fix." },
+  {
+    n: "1",
+    title: "Pick a topic",
+    body: "Choose Software Engineering, DSA, System Design, and more. Start with Easy if it is your first time.",
+  },
+  {
+    n: "2",
+    title: "Answer the questions",
+    body: "Speak into the microphone or type. You have 30 seconds for each question.",
+  },
+  {
+    n: "3",
+    title: "See your score",
+    body: "Get a score out of 10, what went well, and what to practice next.",
+  },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="mx-auto max-w-6xl px-6 py-20">
-      <p className="font-mono text-xs uppercase tracking-widest text-signal">Run of show</p>
-      <h2 className="mt-2 font-display text-4xl font-extrabold uppercase leading-none tracking-tight sm:text-5xl">
-        Three takes to ready.
-      </h2>
+    <section id="about" className="mx-auto max-w-6xl px-6 py-16">
+      <h2 className="text-center text-3xl font-bold tracking-tight text-signal">About Us</h2>
+      <p className="mx-auto mt-2 max-w-lg text-center text-mist">
+        Interview Portal helps you practice real interview questions before the actual meeting.
+      </p>
 
-      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
         {STEPS.map((s) => (
-          <div key={s.label} className="cue-card p-6 pl-8">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-signal">{s.label}</span>
-            <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight">{s.title}</h3>
-            <p className="mt-2 text-sm text-ink/70">{s.body}</p>
+          <div key={s.n} className="cue-card p-6">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-signal text-sm font-bold text-navy">
+              {s.n}
+            </span>
+            <h3 className="mt-4 text-lg font-semibold text-white">{s.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-mist">{s.body}</p>
           </div>
         ))}
       </div>

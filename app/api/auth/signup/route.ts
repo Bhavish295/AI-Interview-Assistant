@@ -22,10 +22,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "An account with this email already exists" }, { status: 409 });
     }
 
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 8);
     const user = await UserModel.create({ name, email, password: hashed, role: "user" });
 
-    await setSessionCookie({ id: user._id.toString(), role: user.role });
+    await setSessionCookie({ id: user._id.toString(), role: user.role, name: user.name });
 
     return NextResponse.json({ name: user.name, email: user.email, role: user.role }, { status: 201 });
   } catch (error) {

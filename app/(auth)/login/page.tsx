@@ -43,9 +43,8 @@ function LoginForm() {
 
   return (
     <AuthShell
-      eyebrow="WELCOME BACK"
       title="Log in"
-      subtitle="Pick up where you left off."
+      subtitle="Use the email and password you signed up with."
       footer={
         <>
           New here?{" "}

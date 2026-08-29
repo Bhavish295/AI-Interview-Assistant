@@ -1,6 +1,5 @@
 import { requireUser } from "@/lib/requireUser";
 import { PasswordForm } from "@/components/app/PasswordForm";
-import { TallyLight } from "@/components/ui/TallyLight";
 
 export default async function SettingsPage() {
   const user = await requireUser();
@@ -8,18 +7,16 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <TallyLight label="ACCOUNT" active={false} />
-        <h1 className="mt-4 font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">Settings</h1>
+      <h1 className="text-3xl font-semibold tracking-tight">Settings</h1>
+      <p className="mt-1 text-mist">Your account details</p>
+
+      <div className="mb-8 mt-6 cue-card max-w-md p-6">
+        <p className="text-xs font-medium uppercase tracking-wide text-mist">Signed in as</p>
+        <p className="mt-1 text-lg font-semibold">{user.name}</p>
+        <p className="text-sm text-mist">{user.email}</p>
       </div>
 
-      <div className="mb-8 cue-card max-w-md p-6 pl-8">
-        <p className="font-mono text-[11px] uppercase tracking-widest text-mist">Signed in as</p>
-        <p className="mt-1 font-display text-xl font-bold">{user.name}</p>
-        <p className="text-sm text-ink/60">{user.email}</p>
-      </div>
-
-      <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-mist">Change password</p>
+      <p className="mb-3 text-sm font-medium">Change password</p>
       <PasswordForm />
     </div>
   );

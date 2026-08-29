@@ -4,15 +4,15 @@ type TallyLightProps = {
   size?: "sm" | "md";
 };
 
-export function TallyLight({ label = "ON AIR", active = true, size = "md" }: TallyLightProps) {
+export function TallyLight({ label = "In progress", active = true, size = "md" }: TallyLightProps) {
   const dot = size === "sm" ? "h-1.5 w-1.5" : "h-2 w-2";
-  const text = size === "sm" ? "text-[10px]" : "text-xs";
+  const text = size === "sm" ? "text-[11px]" : "text-xs";
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono uppercase tracking-widest ${text} ${
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-medium ${text} ${
         active
-          ? "border-signal/40 bg-signal/10 text-signal"
+          ? "border-signal/30 bg-signal/10 text-signal"
           : "border-mist/30 bg-mist/10 text-mist"
       }`}
     >

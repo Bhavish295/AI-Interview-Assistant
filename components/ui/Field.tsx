@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactNode } from "react";
 
 const controlClass =
-  "w-full rounded-lg border border-mist/30 bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-mist focus:border-signal focus:outline-none dark:bg-panel-2 dark:text-paper";
+  "w-full rounded-xl border border-white/15 bg-paper-2 px-3.5 py-2.5 text-sm text-white placeholder:text-mist focus:border-signal focus:outline-none";
 
 export function Label({ children, htmlFor }: { children: ReactNode; htmlFor: string }) {
   return (

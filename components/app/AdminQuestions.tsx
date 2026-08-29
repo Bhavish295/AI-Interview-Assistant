@@ -68,8 +68,8 @@ export function AdminQuestions() {
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[380px_1fr]">
-      <form onSubmit={handleAdd} className="cue-card h-fit space-y-4 p-6 pl-8">
-        <p className="font-display text-lg font-bold uppercase tracking-tight">Add a question</p>
+      <form onSubmit={handleAdd} className="cue-card h-fit space-y-4 p-6">
+        <p className="text-lg font-semibold">Add a question</p>
         <div>
           <Label htmlFor="track">Track</Label>
           <Select id="track" value={track} onChange={(e) => setTrack(e.target.value)}>
@@ -105,14 +105,14 @@ export function AdminQuestions() {
       </form>
 
       <div>
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-mist">
-          {questions ? `${questions.length} questions in the bank` : "Loading…"}
+        <p className="mb-3 text-sm text-mist">
+          {questions ? `${questions.length} questions` : "Loading…"}
         </p>
         <div className="space-y-3">
           {questions?.map((q) => (
-            <div key={q._id} className="flex items-start justify-between gap-4 rounded-xl border border-mist/20 px-5 py-4">
+            <div key={q._id} className="flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-panel px-5 py-4">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-widest text-signal">
+                <p className="text-xs font-medium text-signal">
                   {q.track} · {q.difficulty}
                 </p>
                 <p className="mt-1 text-sm">{q.question}</p>

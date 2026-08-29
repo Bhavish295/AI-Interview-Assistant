@@ -88,7 +88,7 @@ Score the answer honestly (0 is empty/irrelevant, 10 is exceptional). Return ONL
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.6-flash",
       contents: prompt,
     });
     const text = response.text ?? "";

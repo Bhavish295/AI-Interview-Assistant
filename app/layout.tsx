@@ -1,48 +1,22 @@
 import type { Metadata } from "next";
-import { Big_Shoulders, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const display = Big_Shoulders({
+const sans = Inter({
   subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
-  variable: "--font-display",
-});
-
-const body = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-body",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-mono",
+  display: "swap",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "OnAir — AI Interview Studio",
-  description: "Rehearse real interviews with a live AI interviewer. Get scored, honest feedback and walk in ready.",
+  title: "Interview Portal — Practice interviews",
+  description: "Practice job interviews with an AI interviewer. Pick a topic, answer questions, and get a clear score.",
 };
-
-const themeInitScript = `
-(function() {
-  try {
-    var stored = localStorage.getItem("theme");
-    var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var theme = stored || (prefersDark ? "dark" : "light");
-    if (theme === "dark") document.documentElement.classList.add("dark");
-  } catch (e) {}
-})();
-`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
-      <body className={`${display.variable} ${body.variable} ${mono.variable}`}>{children}</body>
+    <html lang="en">
+      <body className={`${sans.variable} font-body bg-paper text-ink`}>{children}</body>
     </html>
   );
 }

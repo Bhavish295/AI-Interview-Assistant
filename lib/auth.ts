@@ -8,6 +8,7 @@ const MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 export type SessionPayload = {
   id: string;
   role: "user" | "admin";
+  name?: string;
 };
 
 export function signSession(payload: SessionPayload) {

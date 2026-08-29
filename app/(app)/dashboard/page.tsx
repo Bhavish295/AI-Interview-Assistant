@@ -2,14 +2,13 @@ import Link from "next/link";
 import { connectDB } from "@/lib/db";
 import ResultModel from "@/models/Result";
 import { requireUser } from "@/lib/requireUser";
-import { TallyLight } from "@/components/ui/TallyLight";
 import { VuMeter } from "@/components/ui/VuMeter";
 import { Button } from "@/components/ui/Button";
 import { TrendChart } from "@/components/app/DashboardCharts";
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  if (!user) return null; // middleware already guards this route
+  if (!user) return null;
 
   await connectDB();
   const results = await ResultModel.find({ userId: user._id }).sort({ createdAt: 1 }).lean();
@@ -17,11 +16,10 @@ export default async function DashboardPage() {
   if (results.length === 0) {
     return (
       <div className="mx-auto max-w-lg text-center">
-        <TallyLight label="STUDIO EMPTY" active={false} />
-        <h1 className="mt-4 font-display text-4xl font-extrabold uppercase tracking-tight">No sessions yet</h1>
-        <p className="mt-2 text-mist">Run your first mock interview to see your trend here.</p>
+        <h1 className="text-3xl font-semibold tracking-tight">No interviews yet</h1>
+        <p className="mt-2 text-mist">Complete one practice interview and your scores will show up here.</p>
         <Link href="/setup">
-          <Button className="mt-6">Start an interview</Button>
+          <Button className="mt-6">Start your first interview</Button>
         </Link>
       </div>
     );
@@ -49,10 +47,8 @@ export default async function DashboardPage() {
     <div>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <TallyLight label={`${results.length} SESSIONS LOGGED`} active={false} />
-          <h1 className="mt-4 font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
-            Your dashboard
-          </h1>
+          <p className="text-sm text-mist">{results.length} interview{results.length === 1 ? "" : "s"} completed</p>
+          <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">Your results</h1>
         </div>
         <Link href="/setup">
           <Button>New interview</Button>
@@ -61,28 +57,26 @@ export default async function DashboardPage() {
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Average score" value={`${avgScore.toFixed(1)}/10`} />
-        <StatCard label="Strongest track" value={strongest.track} sub={`${strongest.avg.toFixed(1)}/10`} />
-        <StatCard label="Needs more reps" value={weakest.track} sub={`${weakest.avg.toFixed(1)}/10`} />
+        <StatCard label="Strongest topic" value={strongest.track} sub={`${strongest.avg.toFixed(1)}/10`} />
+        <StatCard label="Practice this more" value={weakest.track} sub={`${weakest.avg.toFixed(1)}/10`} />
       </div>
 
-      <div className="cue-card mb-8 p-6 pl-8">
-        <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-mist">Score trend — last {chartData.length}</p>
-        <div className="oscilloscope-grid rounded-lg">
-          <TrendChart data={chartData} />
-        </div>
+      <div className="cue-card mb-8 p-6">
+        <p className="mb-2 text-sm font-medium">Score over time</p>
+        <TrendChart data={chartData} />
       </div>
 
-      <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-mist">Session history</p>
+      <p className="mb-3 text-sm font-medium">Past interviews</p>
       <div className="space-y-3">
         {[...results].reverse().map((r) => (
           <Link
             key={r._id.toString()}
             href={`/results/${r._id}`}
-            className="flex items-center justify-between gap-4 rounded-xl border border-mist/20 px-5 py-4 hover:border-signal/40 hover:bg-mist/5"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-panel px-5 py-4 hover:border-signal/40"
           >
             <div>
-              <p className="font-display text-lg font-bold uppercase tracking-tight">{r.track}</p>
-              <p className="font-mono text-xs text-mist">
+              <p className="font-semibold">{r.track}</p>
+              <p className="text-xs text-mist">
                 {r.difficulty} · {new Date(r.createdAt as unknown as string).toLocaleDateString()}
               </p>
             </div>
@@ -98,10 +92,10 @@ export default async function DashboardPage() {
 
 function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="cue-card p-5 pl-7">
-      <p className="font-mono text-[11px] uppercase tracking-widest text-mist">{label}</p>
-      <p className="mt-1 font-display text-2xl font-bold uppercase tracking-tight">{value}</p>
-      {sub && <p className="font-mono text-sm text-brass">{sub}</p>}
+    <div className="cue-card p-5">
+      <p className="text-xs font-medium uppercase tracking-wide text-mist">{label}</p>
+      <p className="mt-1 text-xl font-semibold">{value}</p>
+      {sub && <p className="text-sm text-brass">{sub}</p>}
     </div>
   );
 }
